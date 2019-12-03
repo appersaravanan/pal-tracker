@@ -15,15 +15,19 @@ public class InMemoryTimeEntryRepositoryTest {
     public void create() throws Exception {
         InMemoryTimeEntryRepository repo = new InMemoryTimeEntryRepository();
 
+
         long projectId = 123L;
         long userId = 456L;
         TimeEntry createdTimeEntry = repo.create(new TimeEntry(projectId, userId, LocalDate.parse("2017-01-08"), 8));
 
         long timeEntryId = 1L;
         TimeEntry expected = new TimeEntry(timeEntryId, projectId, userId, LocalDate.parse("2017-01-08"), 8);
+        System.out.print(createdTimeEntry.toString());
+        System.out.print(expected.toString());
         assertThat(createdTimeEntry).isEqualTo(expected);
-
+        System.out.print(expected.toString());
         TimeEntry readEntry = repo.find(createdTimeEntry.getId());
+        System.out.print(readEntry.toString());
         assertThat(readEntry).isEqualTo(expected);
     }
 
