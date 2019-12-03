@@ -8,33 +8,34 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
+@RequestMapping("/time-entries")
 public class TimeEntryController {
     private TimeEntryRepository timeEntryRepository;
 
     public TimeEntryController(TimeEntryRepository timeEntryRepository) {
         this.timeEntryRepository = timeEntryRepository;
     }
-    @PostMapping("/time-entries")
+    @PostMapping
     public ResponseEntity<TimeEntry> create(@RequestBody TimeEntry timeEntryToCreate) {
         TimeEntry createdTimeEntry=timeEntryRepository.create(timeEntryToCreate);
         return new ResponseEntity<>(createdTimeEntry, HttpStatus.CREATED);
     }
-    @GetMapping("/time-entries/{timeEntryId}")
+    @GetMapping("/{timeEntryId}")
     public ResponseEntity<TimeEntry> read(@PathVariable  long timeEntryId) {
         TimeEntry searchedTimeEntry=timeEntryRepository.find(timeEntryId);
         return new ResponseEntity<>(searchedTimeEntry, Objects.isNull(searchedTimeEntry)? HttpStatus.NOT_FOUND:HttpStatus.OK);
     }
-    @GetMapping("/time-entries")
+    @GetMapping
     public ResponseEntity<List<TimeEntry>> list() {
         List<TimeEntry> repoList= timeEntryRepository.list();
         return new ResponseEntity<>(repoList,HttpStatus.OK);
     }
-    @PutMapping("/time-entries/{timeEntryId}")
+    @PutMapping("/{timeEntryId}")
     public ResponseEntity update(@PathVariable long timeEntryId, @RequestBody TimeEntry expected) {
         TimeEntry updatedRecord=timeEntryRepository.update(timeEntryId,expected);
         return new ResponseEntity<>(updatedRecord,Objects.isNull(updatedRecord)?HttpStatus.NOT_FOUND:HttpStatus.OK);
     }
-    @DeleteMapping("/time-entries/{timeEntryId}")
+    @DeleteMapping("/{timeEntryId}")
     public ResponseEntity delete( @PathVariable long timeEntryId) {
         timeEntryRepository.delete(timeEntryId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
